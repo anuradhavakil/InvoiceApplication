@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <style type="text/css">
+        form{
+            margin: 20px 0;
+        }
+        form input, button{
+            padding: 5px;
+        }
+        table{
+            width: 100%;
+            margin-bottom: 20px;
+            border-collapse: collapse;
+        }
+        table, th, td{
+            border: 1px solid #cdcdcd;
+        }
+        table th, table td{
+            padding: 10px;
+            text-align: left;
+        }
+    </style>
+    <script type="text/javascript"
+            src="webjars/jquery/2.2.4/jquery.min.js"></script>
+
+    <script type="text/javascript" src="js/main.js"></script>
+
+    <title>Invoice Application</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+    <link rel="stylesheet" type="text/css"
+          href="webjars/bootstrap/3.3.7/css/bootstrap.min.css"/>
+
+</head>
+<body>
+
+<nav class="navbar navbar-inverse">
+    <div class="container">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">Invoice Application</a>
+        </div>
+    </div>
+</nav>
+
+<div class="container" style="min-height: 500px">
+
+    <div class="starter-template">
+        <h1>Invoice Application</h1>
+
+        <div id="error" class="error"></div>
+
+        <form class="form-horizontal" id="Send-form">
+            <div class="form-group form-group-lg">
+                <div class="col-sm-5">
+                    <label for="name" class="col-sm-2 control-label">Name</label>
+                    <input type="text" class="form-control" id="name"/>
+                </div>
+                <div class="col-sm-5">
+                    <label for="email" class="col-sm-2 control-label">Email</label>
+                    <input type="email" class="form-control" id="email"/>
+                </div>
+                <div class="col-sm-5">
+                    <label for="dueDate" class="col-sm-2 control-label">Date</label>
+                    <input type="date" class="form-control" id="dueDate"/>
+                </div>
+
+            </div>
+
+            <div class="form-group">
+
+                <p><button class="btn btn-primary" id="addItemButton"><i class="icon-pencil icon-white"></i>+</button></p>
+
+                <div>
+                    <table id="myTable" border="2" cellspacing="0" width="100%">
+                        <thead>
+                        <tr>
+                            <th>Invoice Description</th>
+                            <th>Invoice Amount</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr id="0">
+                            <td><input type='text' class="form-control" name="itemDescription" id='invoiceLineItemDescriptionInput_0'/></td>
+                            <td><input type='number' class="form-control" name="amount" id='invoiceLineAmount_0'/></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="text-right text-nowrap col-lg-1">
+                    <label id="totalAmount">Total Amount: $0.00</label>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <button type="submit" id="btn-Send"
+                            class="btn btn-primary btn-lg">Send
+                    </button>
+                </div>
+            </div>
+        </form>
+
+    </div>
+
+</div>
+
+
+</body>
+</html>

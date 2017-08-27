@@ -1,0 +1,86 @@
+-- DROP DATABASE financialsDB;
+CREATE TABLE financialsDB.Customer(
+  Name VARCHAR(20),
+  Email VARCHAR(60),
+  CustomerId INT AUTO_INCREMENT,
+  PRIMARY KEY (CustomerId,Email)
+);
+
+CREATE TABLE financialsDB.Invoice(
+  InvoiceId INT(20) NOT NULL AUTO_INCREMENT,
+  DueDate DATE,
+  CustomerId INT,
+  PRIMARY KEY (InvoiceId),
+  FOREIGN KEY (CustomerId) REFERENCES Customer(CustomerId)
+);
+
+
+GRANT ALL ON financialsDB.* TO 'financialsDB'@'localhost' IDENTIFIED BY 'password';
+
+Select * from financialsDB.Customer
+
+Select * from financialsDB.Customer where Name = ('Riti')
+
+
+Insert into financialsDB.Customer(Name,Email) VALUE ('Kim','kim@gmail.com')
+
+Delete from financialsDB.Customer
+
+ALTER TABLE financialsDB.Invoice MODIFY InvoiceId VARCHAR(20) NOT NULL AUTO_INCREMENT
+
+
+DROP TABLE financialsDB.Invoice
+
+
+====================================
+
+-- DROP DATABASE financialsDB;
+CREATE TABLE financialsDB.Customer(
+  Name VARCHAR(20),
+  Email VARCHAR(60),
+  CustomerId INT AUTO_INCREMENT,
+  PRIMARY KEY (CustomerId,Email)
+);
+
+CREATE TABLE financialsDB.Invoice(
+  InvoiceId INT(20) NOT NULL AUTO_INCREMENT,
+  DueDate DATE,
+  CustomerId INT,
+  PRIMARY KEY (InvoiceId),
+  FOREIGN KEY (CustomerId) REFERENCES Customer(CustomerId)
+);
+
+CREATE TABLE financialsDB.InvoiceLineItem(
+  InvoiceLineItemID INT(20) NOT NULL AUTO_INCREMENT,
+  InvoiceId INT(20),
+  ItemDescription VARCHAR(60),
+  Amount DOUBLE,
+  PRIMARY KEY (InvoiceLineItemID),
+  FOREIGN KEY (InvoiceId) REFERENCES Invoice(InvoiceId)
+);
+
+
+GRANT ALL ON financialsDB.* TO 'financialsDB'@'localhost' IDENTIFIED BY 'password';
+
+Select * from financialsDB.Invoice where CustomerId = 1
+
+Select * from financialsDB.Customer where Name = ('Riti')
+
+
+Insert into financialsDB.Customer(Name,Email) VALUE ('Kim','kim@gmail.com')
+
+Insert into financialsDB.Invoice(CustomerId) Value (select CustomerId FROM financialsDB.Customer where Name = 'kim')
+where InvoiceId = 1
+
+Delete from financialsDB.Customer
+
+ALTER TABLE financialsDB.Invoice MODIFY InvoiceId VARCHAR(20) NOT NULL AUTO_INCREMENT
+
+
+DROP TABLE financialsDB.Invoice
+
+Insert into financialsDB.Customer(Name,Email) VALUE ('Elle','elle@gmail.com')
+
+
+
+
