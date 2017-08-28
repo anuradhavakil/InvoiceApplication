@@ -12,6 +12,9 @@ import java.sql.SQLException;
 
 /**
  * Created by avakil on 8/24/17.
+ *
+ * This class has implemented the methods from Interface - CustomerDAO.
+ * It handles the insert into/ read from db - table: Customer
  */
 public class CustomerDAOImpl implements CustomerDAO {
 
@@ -20,7 +23,6 @@ public class CustomerDAOImpl implements CustomerDAO {
     PreparedStatement preparedStatement = null;
     ResultSet result = null;
     Connection connection = null;
-  //  boolean setConnection = false;
     int CustomerID;
     DBManager dbManager;
 
@@ -29,25 +31,12 @@ public class CustomerDAOImpl implements CustomerDAO {
        dbManager = new DBManager();
         connection = dbManager.setConnection();
     }
-      //making connection
-  /*  public void setConnection(){
-        try {
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/financialsDB","root","password123") ;
-            connection.setAutoCommit(false);
-            setConnection = true;
-        } catch (SQLException e) {
-            throw new RuntimeException("Exception initializing DB connection:"+e);
-        }
-
-    }*/
 
     //Insert data
     public void insertCustomer(String name, String email){
         String insertCustomerQuery = "insert into Customer(Name,Email) values (?,?)";
 
         try {
-         //   setConnection();
-       //     connection = dbUtil.setConnection();
             preparedStatement = connection.prepareStatement(insertCustomerQuery);
             preparedStatement.setString(1,name);
             preparedStatement.setString(2,email);
@@ -62,17 +51,7 @@ public class CustomerDAOImpl implements CustomerDAO {
     //read the data
     public Customer getCustomerByName(String name){
         String selectCustomerByName = "Select * from financialsDB.Customer where Name = (?)";
-         int result = 0;
         Customer customer = new Customer();
-
-      /*  if ( setConnection == false){
-            setConnection();
-        }*/
-
-     /*   if (dbUtil.isSetConnection() == false){
-            connection = dbUtil.setConnection();
-        }*/
-
         try {
             preparedStatement = connection.prepareStatement(selectCustomerByName);
             preparedStatement.setString(1,name);
@@ -95,16 +74,7 @@ public class CustomerDAOImpl implements CustomerDAO {
     public Customer getCustomerIdByEmail(String email) {
 
         String selectCustomerByName = "Select * from financialsDB.Customer where Email = (?)";
-        int result = 0;
         Customer customer = new Customer();
-
-     /*   if ( setConnection == false){
-            setConnection();
-        }
-
-        if (dbUtil.isSetConnection() == false){
-            connection = dbUtil.setConnection();
-        }*/
 
         try {
             preparedStatement = connection.prepareStatement(selectCustomerByName);
@@ -121,9 +91,7 @@ public class CustomerDAOImpl implements CustomerDAO {
             }
         } catch (SQLException e) {
             throw new RuntimeException("Exception fetching customer by email"+ e);
-
         }
-
         return customer;
     }
 }

@@ -13,12 +13,13 @@ import java.util.List;
 
 /**
  * Created by avakil on 8/24/17.
+ * This class has implemented the methods from Interface - InvoiceDAO .
+ * It handles the insert into/reading from db - table: Invoice
  */
 public class InvoiceDAOImpl implements InvoiceDAO {
 
     public static Logger logger = LoggerFactory.getLogger(InvoiceDAOImpl.class);
 
-    //   Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/financialsDB","root","password123");
     PreparedStatement preparedStatement = null;
     ResultSet result = null;
     Connection connection = null;
@@ -28,23 +29,12 @@ public class InvoiceDAOImpl implements InvoiceDAO {
        DBManager dbManager = new DBManager();
         connection = dbManager.setConnection();
     }
-    //making connection
-   /* public void setConnection(){
-        try {
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/financialsDB","root","password123") ;
-            connection.setAutoCommit(false);
-            setConnection = true;
-        } catch (SQLException e) {
-            throw new RuntimeException("Exception initializing DB connection:"+e);
-        }
-    }*/
 
     //Insert data
     public void insertInvoice(java.sql.Date dueDate, int customerId){
         String insertCustomerQuery = "insert into Invoice(DueDate,CustomerId) values (?,?)";
 
         try {
-          //  setConnection();
             preparedStatement = connection.prepareStatement(insertCustomerQuery);
             preparedStatement.setDate(1, dueDate);
             preparedStatement.setInt(2,customerId);
@@ -60,12 +50,7 @@ public class InvoiceDAOImpl implements InvoiceDAO {
     //read the data
     public Invoice getInvoiceByCustId(int id){
         String selectInvoicebycustid = "Select * from financialsDB.Invoice where CustomerId = (?)";
-        int result = 0;
         Invoice invoice = new Invoice();
-
-     /*   if ( setConnection == false){
-            setConnection();
-        }*/
 
         try {
             preparedStatement = connection.prepareStatement(selectInvoicebycustid);
@@ -86,12 +71,7 @@ public class InvoiceDAOImpl implements InvoiceDAO {
 
     public Invoice getInvoiceByInvoiceId(int id){
         String selectInvoicebycustid = "Select * from financialsDB.Invoice where InvoiceId = (?)";
-        int result = 0;
         Invoice invoice = new Invoice();
-
-      /*  if ( setConnection == false){
-            setConnection();
-        }*/
 
         try {
             preparedStatement = connection.prepareStatement(selectInvoicebycustid);

@@ -13,16 +13,16 @@ import java.util.ArrayList;
 
 /**
  * Created by avakil on 8/24/17.
+ * This class has implemented the methods from Interface - InvoiceLineItemDAO.
+ * It handles the insert into/ read from db - table: InvoiceLineItem
  */
 public class InvoiceLineItemDAOImpl implements InvoiceLineItemDAO {
 
     public static Logger logger = LoggerFactory.getLogger(InvoiceLineItemDAO.class);
 
-    //   Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/financialsDB","root","password123");
     PreparedStatement preparedStatement = null;
     ResultSet result = null;
     Connection connection = null;
-  //  boolean setConnection = false;
 
 
     public InvoiceLineItemDAOImpl()  {
@@ -30,23 +30,11 @@ public class InvoiceLineItemDAOImpl implements InvoiceLineItemDAO {
         connection = dbManager.setConnection();
     }
 
-    //making connection
-  /*  public void setConnection(){
-        try {
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/financialsDB","root","password123") ;
-            connection.setAutoCommit(false);
-         //   setConnection = true;
-        } catch (SQLException e) {
-            throw new RuntimeException("Exception initializing DB connection:"+e);
-        }
-    }*/
-
     //Insert data
     public void insertInvoiceLineItem(String itemDescription, double amount,int invoiceId){
         String insertInvoiceLineItemQuery = "insert into InvoiceLineItem(ItemDescription,Amount,InvoiceId) values (?,?,?)";
 
         try {
-        //    setConnection();
             preparedStatement = connection.prepareStatement(insertInvoiceLineItemQuery);
             preparedStatement.setString(1, itemDescription);
             preparedStatement.setDouble(2, amount);
@@ -64,10 +52,8 @@ public class InvoiceLineItemDAOImpl implements InvoiceLineItemDAO {
     //read data by invoiceid
     public InvoiceLineItem getInvoiceLineItem(int invoiceId){
         String selectInvoiceLineItem = "select * from InvoiceLineItem where InvoiceId = (?)";
-     //   ArrayList<InvoiceLineItem> invoiceLineItems = new ArrayList<>();
-        InvoiceLineItem invoiceLineItem = new InvoiceLineItem();
+       InvoiceLineItem invoiceLineItem = new InvoiceLineItem();
         try {
-      //      setConnection();
             preparedStatement = connection.prepareStatement(selectInvoiceLineItem);
             preparedStatement.setInt(1,invoiceId);
             ResultSet rs = preparedStatement.executeQuery();
@@ -77,7 +63,6 @@ public class InvoiceLineItemDAOImpl implements InvoiceLineItemDAO {
                 invoiceLineItem.setInvoiceId(rs.getInt("InvoiceId"));
                 invoiceLineItem.setItemDescription(rs.getString("ItemDescription"));
                 invoiceLineItem.setAmount(rs.getDouble("Amount"));
-              //  invoiceLineItems.add(invoiceLineItem);
             }
         } catch (SQLException e) {
             throw new RuntimeException("Exception reading invoice line item:"+e);
@@ -91,10 +76,9 @@ public class InvoiceLineItemDAOImpl implements InvoiceLineItemDAO {
     //get all invoice line items for particular invoice id
     public ArrayList<InvoiceLineItem> getAllInvoiceLineItem(int invoiceId){
         String selectInvoiceLineItem = "select * from InvoiceLineItem where InvoiceId = (?)";
-           ArrayList<InvoiceLineItem> invoiceLineItems = new ArrayList<>();
+        ArrayList<InvoiceLineItem> invoiceLineItems = new ArrayList<>();
         InvoiceLineItem invoiceLineItem = new InvoiceLineItem();
         try {
-        //    setConnection();
             preparedStatement = connection.prepareStatement(selectInvoiceLineItem);
             preparedStatement.setInt(1,invoiceId);
             ResultSet rs = preparedStatement.executeQuery();
@@ -113,6 +97,5 @@ public class InvoiceLineItemDAOImpl implements InvoiceLineItemDAO {
 
         return invoiceLineItems;
     }
-
 
 }

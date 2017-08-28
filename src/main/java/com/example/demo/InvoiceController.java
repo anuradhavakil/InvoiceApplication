@@ -19,6 +19,14 @@ import java.util.ArrayList;
 
 /**
  * Created by avakil on 8/22/17.
+ * This class handles the incoming POST/GET request.
+ *
+ * Incase of POST it calls InvoiceService to handle the business logic from the view.
+ * If the customer exists and the invoice creation is successful it returns the invoiceID.
+ *
+ * Incase customer does not exists it lets the user know that customer does not exists
+ *
+ * All the invoices created successfully can display the line items attached to it through GET call
  */
 
 @RestController

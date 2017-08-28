@@ -12,7 +12,6 @@ public class Invoice {
     private int customerId;
 
 
-
     public void setDueDate(Date dueDate){
         this.dueDate = dueDate;
     }
@@ -29,8 +28,11 @@ public class Invoice {
         return invoiceId;
     }
 
-
     public void setCustomerId(int customerId) {
         this.customerId = customerId;
+    }
+
+    public int getCustomerId(){
+        return customerId;
     }
 }

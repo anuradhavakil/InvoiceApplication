@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 /**
  * Created by avakil on 8/23/17.
+ * This class routs the page to template invoice.html (View from MVC)
  */
 @Controller
 public class IndexController {

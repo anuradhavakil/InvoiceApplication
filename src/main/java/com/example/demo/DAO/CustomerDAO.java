@@ -7,7 +7,6 @@ import com.example.demo.model.Customer;
  */
 public interface CustomerDAO {
 
-  //  public void setConnection();
     public void insertCustomer(String name,String email);
     public Customer getCustomerByName(String name);
     public Customer getCustomerIdByEmail(String email);
