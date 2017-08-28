@@ -11,7 +11,9 @@ import java.util.Properties;
 
 /**
  * Created by avakil on 8/24/17.
+ * Do not use....
  */
+@Deprecated
 public class DatabaseManager {
     private static final String DB_CONFIG_FILE = "localDb.properties";
     private static final String DB_NAME = "financialsDB";
