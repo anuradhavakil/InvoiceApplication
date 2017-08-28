@@ -1,9 +1,10 @@
 package com.example.demo.service;
 
-import com.example.demo.DAO.CustomerDAO;
-import com.example.demo.DAO.InvoiceDAO;
-import com.example.demo.DAO.InvoiceLineItemDAO;
+import com.example.demo.dao.mysql.CustomerDAOImpl;
+import com.example.demo.dao.mysql.InvoiceDAOImpl;
+import com.example.demo.dao.InvoiceLineItemDAO;
 import com.example.demo.InvoiceObject;
+import com.example.demo.dao.mysql.InvoiceLineItemDAOImpl;
 import com.example.demo.model.Customer;
 import com.example.demo.model.Invoice;
 import com.example.demo.model.InvoiceLineItem;
@@ -20,14 +21,14 @@ import java.util.List;
  * This class serves the purpose of creating(creating data in db) new invoice along with
  * invoice line items and returning invoice id and invoice line item ids to the controller
  */
-public class InvoiceService {
+public class InvoiceService{
     public static ArrayList<InvoiceLineItem> updatedLineItems = new ArrayList<>();
     public static InvoiceObject updatedInvoiceObject = new InvoiceObject();
     public static double totalAmount = 0.0d;
 
     public InvoiceService(){}
 
-    public boolean createInvoice( InvoiceObject invoiceObject){
+    public boolean createInvoice( InvoiceObject invoiceObject) throws SQLException{
 
         String name = invoiceObject.getName();
         String email = invoiceObject.getEmail();
@@ -39,7 +40,7 @@ public class InvoiceService {
         InvoiceLineItem lineItem = null;
 
         try {
-            CustomerDAO customerDAO = new CustomerDAO();
+            CustomerDAOImpl customerDAO = new CustomerDAOImpl();
             customer = customerDAO.getCustomerIdByEmail(email);
 
         //return false if customer does not exists
@@ -76,13 +77,11 @@ public class InvoiceService {
     private InvoiceLineItem getInvoiceLineItem(InvoiceLineItem lineItem, Invoice invoice) {
         InvoiceLineItem invoiceLineItem = new InvoiceLineItem();
 
-        try {
-            InvoiceLineItemDAO invoiceLineItemDAO = new InvoiceLineItemDAO();
+
+            InvoiceLineItemDAO invoiceLineItemDAO = new InvoiceLineItemDAOImpl();
             invoiceLineItemDAO.insertInvoiceLineItem(lineItem.getItemDescription(),lineItem.getAmount(),invoice.getInvoiceId());
             invoiceLineItem = invoiceLineItemDAO.getInvoiceLineItem(invoice.getInvoiceId());
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+
 
         return invoiceLineItem;
     }
@@ -91,7 +90,7 @@ public class InvoiceService {
     private Invoice getInvoice(Date dueDate, Customer customer) {
         Invoice invoice = null;
         try {
-            InvoiceDAO invoiceDAO = new InvoiceDAO();
+            InvoiceDAOImpl invoiceDAO = new InvoiceDAOImpl();
             invoiceDAO.insertInvoice(dueDate,customer.getCustomerId());
             invoice = invoiceDAO.getInvoiceByCustId(customer.getCustomerId());
         } catch (SQLException e) {

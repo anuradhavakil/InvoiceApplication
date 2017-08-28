@@ -15,16 +15,16 @@ $(document).ready(function () {
 
     var i=1;
     var totalAmount=0.00;
-        $('#addItemButton').click(function() {
-            $("table tbody").append('<tr id="'+i+'">'+
-                '<td><input class="form-control" type="text" name="itemDescription" id="invoiceLineItemDescriptionInput_'+i+'" /></td>' +
-                '<td><input class="form-control" type="number" name="amount" id="invoiceLineAmount_'+i+'" /></td>' +
-                '</tr>');
-            totalAmount += parseFloat($('#invoiceLineAmount_'+(i-1)).val());
-            i++;
-            $("#totalAmount").html("Total Amount: $"+parseFloat(totalAmount).toFixed(2));
-            event.preventDefault();
-        });
+    $('#addItemButton').click(function() {
+        $("table tbody").append('<tr id="'+i+'">'+
+            '<td><input class="form-control" type="text" name="itemDescription" id="invoiceLineItemDescriptionInput_'+i+'" /></td>' +
+            '<td><input class="form-control price" type="text" name="amount" id="invoiceLineAmount_'+i+'" /></td>' +
+            '</tr>');
+        totalAmount += parseFloat($('#invoiceLineAmount_'+(i-1)).val());
+        i++;
+        $("#totalAmount").html("Total Amount: $"+parseFloat(totalAmount).toFixed(2));
+        event.preventDefault();
+    });
 
 
 });
@@ -40,14 +40,21 @@ function fire_ajax_submit() {
     
     // read table data in JSON Array
     var tableData=[];
+    var isRowEmpty= false;
     $('table').find('tr').each(function(){
         var id=$(this).attr('id');
         if(!$.isEmptyObject(id)){
             var row={};
             $(this).find('input').each(function(){
-                row[$(this).attr('name')]=$(this).val();
+                if(!$.isEmptyObject($(this).val())){
+                    row[$(this).attr('name')]=$(this).val();
+                } else  {
+                    isRowEmpty = true;
+                }
             });
-            tableData[id]=row;
+            if(!isRowEmpty){
+                tableData[id]=row;
+            }
         }
 
     });
@@ -81,6 +88,9 @@ function fire_ajax_submit() {
 
             console.log("SUCCESS : ", data);
             $("#btn-Send").prop("disabled", true);
+            $("#totalAmount").html("Total Amount: $"+parseFloat(data.totalAmount).toFixed(2));
+            $('#error').html("");
+            $('#successInfo').html("<b><i>Invoice Created with Invoice Id:"+data.invoiceId +"</i></b>");
 
         },
         error: function (jqXHR, textStatus, errorThrown) {
@@ -88,7 +98,7 @@ function fire_ajax_submit() {
           var errorJson = jQuery.parseJSON(jqXHR.responseText);
 
             console.log("ERROR : ", errorJson.msg);
-            $("#btn-Send").prop("disabled", true);
+            $("#btn-Send").prop("disabled", false);
             if(!$.isEmptyObject(errorJson.msg)){
                 $('#error').html("Please correct following errors: " + errorJson.msg);
             }

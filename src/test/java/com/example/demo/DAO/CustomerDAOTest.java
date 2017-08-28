@@ -1,5 +1,6 @@
-package com.example.demo.DAO;
+package com.example.demo.dao;
 
+import com.example.demo.dao.mysql.CustomerDAOImpl;
 import com.example.demo.model.Customer;
 import org.junit.Assert;
 import org.junit.Test;
@@ -11,21 +12,11 @@ import java.sql.SQLException;
  */
 public class CustomerDAOTest {
 
-    @Test
-    public void insertCustomerTest() throws SQLException{
-
-            CustomerDAO customerDAO = new CustomerDAO();
-            Customer customer = new Customer();
-            customer.setName("Riti");
-            customer.setEmail("riti@gmail.com");
-            customerDAO.insertCustomer(customer.getName(),customer.getEmail());
-
-    }
 
     @Test
     public void getCustomerDataByNameTest() throws SQLException{
 
-            CustomerDAO customerDAO = new CustomerDAO();
+            CustomerDAOImpl customerDAO = new CustomerDAOImpl();
             Customer customer = new Customer();
             customer.setName("Riti");
             Assert.assertEquals("Riti",customerDAO.getCustomerByName(customer.getName()).getName());

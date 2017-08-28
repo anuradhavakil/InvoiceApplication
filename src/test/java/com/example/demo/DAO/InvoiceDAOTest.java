@@ -1,8 +1,9 @@
-package com.example.demo.DAO;
+package com.example.demo.dao;
 
+import com.example.demo.dao.mysql.InvoiceDAOImpl;
 import com.example.demo.model.Invoice;
-import org.junit.Test;
 
+import java.sql.Date;
 import java.sql.SQLException;
 
 /**
@@ -10,20 +11,14 @@ import java.sql.SQLException;
  */
 public class InvoiceDAOTest {
 
-    @Test
+  //  @Test
     public void insertInvoiceTest() throws SQLException {
-        InvoiceDAO invoiceDAO = new InvoiceDAO();
+        InvoiceDAOImpl invoiceDAO = new InvoiceDAOImpl();
         Invoice invoice = new Invoice();
         String dateString = String.format("%d-%02d-%02d", 2017, 06, 01);
-        invoice.setDueDate(java.sql.Date.valueOf(dateString));
-        invoiceDAO.insertInvoice(java.sql.Date.valueOf(invoice.getDueDate().toString()), 1);
+        Date date = new Date(20,170,601);
+        invoice.setDueDate(date);
+        invoiceDAO.insertInvoice(java.sql.Date.valueOf(invoice.getDueDate().toString()), 13);
     }
 
-    @Test
-    public void getInvoiceByCustIdTest() throws SQLException {
-        InvoiceDAO invoiceDAO = new InvoiceDAO();
-        Invoice invoice = new Invoice();
-        invoice.setInvoiceId(1);
-        invoiceDAO.getInvoiceByCustId(invoice.getInvoiceId());
-    }
 }

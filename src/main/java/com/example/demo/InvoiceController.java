@@ -1,7 +1,8 @@
 package com.example.demo;
 
-import com.example.demo.DAO.InvoiceDAO;
-import com.example.demo.DAO.InvoiceLineItemDAO;
+import com.example.demo.dao.mysql.InvoiceDAOImpl;
+import com.example.demo.dao.InvoiceLineItemDAO;
+import com.example.demo.dao.mysql.InvoiceLineItemDAOImpl;
 import com.example.demo.model.Invoice;
 import com.example.demo.model.InvoiceLineItem;
 import com.example.demo.service.InvoiceService;
@@ -27,8 +28,8 @@ public class InvoiceController {
 
     @GetMapping("/invoice/{invoiceId}")
     public ResponseEntity<?> getLineItem(@PathVariable("invoiceId") Integer invoiceId) throws SQLException {
-        InvoiceDAO invoiceDAO = new InvoiceDAO();
-        InvoiceLineItemDAO invoiceLineItemDAO = new InvoiceLineItemDAO();
+        InvoiceDAOImpl invoiceDAO = new InvoiceDAOImpl();
+        InvoiceLineItemDAO invoiceLineItemDAO = new InvoiceLineItemDAOImpl();
         Invoice invoice = invoiceDAO.getInvoiceByInvoiceId(invoiceId);
         ArrayList<InvoiceLineItem> invoiceLineItem = invoiceLineItemDAO.getAllInvoiceLineItem(invoiceId);
 
@@ -36,7 +37,7 @@ public class InvoiceController {
     }
 
     @RequestMapping(value = "/invoice", method = RequestMethod.POST, produces = "application/json")
-    public ResponseEntity<?> addLineItem( @RequestBody InvoiceObject invoiceObject){
+    public ResponseEntity<?> addLineItem( @RequestBody InvoiceObject invoiceObject) throws SQLException {
 
         InvoiceResponse result = new InvoiceResponse();
         InvoiceService invoiceService = new InvoiceService();
