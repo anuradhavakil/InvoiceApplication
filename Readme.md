@@ -35,6 +35,29 @@ git clone
 ./gradlew bootRun
 ```
 
+4. In order to create new invoice go to:
+
+http://localhost:8080/invoice
+
+5. After the invoice is created successfully to view the line items go to:
+
+http://localhost:8080/invoice/{invoiceid}
+
+6. To test the service through postman -
+
+url:http://localhost:8080/invoice
+
+
+payload:
+
+```
+{
+ "name":"Kim",
+ "email":"Kim_Mark@intuit.com",
+ "dueDate":"2017-06-20",
+ "invoiceLineItems":[{"itemDescription":"water", "amount":35},{"itemDescription":"wood", "amount":40}]
+```
+
 ## Assumptions
 MySQL database created outside of the application.  The tables required for the application can be created via sql scripts included in the project
 
