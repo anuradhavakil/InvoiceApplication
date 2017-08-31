@@ -49,13 +49,17 @@ public class InvoiceController {
 
         InvoiceResponse result = new InvoiceResponse();
         InvoiceService invoiceService = new InvoiceService();
-        boolean createInvoiceResponse = invoiceService.createInvoice(invoiceObject);
-        if( createInvoiceResponse == false){
+        String createInvoiceResponse = invoiceService.createInvoice(invoiceObject);
+        if( createInvoiceResponse.equals("Customer does not exists")){
             result.setMsg("Customer does not exists");
             return ResponseEntity.status(400).body(result);
+        }else if( createInvoiceResponse.equals("Invoice line item is null")){
+            result.setMsg("Invoice line item is null Or amount is null");
+            return ResponseEntity.status(400).body(result);
+        }else {
+            System.out.println(invoiceService.getInvoiceObject());
+            return ResponseEntity.status(201).body(invoiceService.getInvoiceObject());
         }
-        System.out.println(invoiceService.getInvoiceObject());
-        return ResponseEntity.status(201).body(invoiceService.updatedInvoiceObject);
     }
 
 

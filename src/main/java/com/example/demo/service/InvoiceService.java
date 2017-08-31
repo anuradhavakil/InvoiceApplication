@@ -22,20 +22,19 @@ import java.util.List;
  * invoice line items and returning invoice id and invoice line item ids to the controller
  */
 public class InvoiceService{
-    public static ArrayList<InvoiceLineItem> updatedLineItems = new ArrayList<>();
-    public static InvoiceObject updatedInvoiceObject = new InvoiceObject();
-    public static double totalAmount = 0.0d;
-
+    private InvoiceObject updatedInvoiceObject;
     public InvoiceService(){}
 
-    public boolean createInvoice( InvoiceObject invoiceObject) throws SQLException{
+    public String createInvoice( InvoiceObject invoiceObject) throws SQLException{
 
         String name = invoiceObject.getName();
         String email = invoiceObject.getEmail();
         Date dueDate = invoiceObject.getDueDate();
+        double totalAmount = 0.0d;
         List<InvoiceLineItem> invoiceLineItem = invoiceObject.getInvoiceLineItems();
         Customer customer = null;
         Invoice invoice = null;
+        ArrayList<InvoiceLineItem> updatedLineItems = new ArrayList<>();
 
         InvoiceLineItem lineItem = null;
 
@@ -45,7 +44,7 @@ public class InvoiceService{
 
         //return false if customer does not exists
         if( customer.getName() == null) {
-            return false;
+            return "Customer does not exists";
         }
             //get invoice for this particular request
             invoice = getInvoice(dueDate, customer);
@@ -62,6 +61,7 @@ public class InvoiceService{
         } catch (SQLException e) {
                 throw new RuntimeException(e.getMessage()+e);
             }
+        updatedInvoiceObject = new InvoiceObject();
         updatedInvoiceObject.setTotalAmount(totalAmount);
         updatedInvoiceObject.setName(customer.getName());
         updatedInvoiceObject.setEmail(customer.getEmail());
@@ -69,7 +69,14 @@ public class InvoiceService{
         updatedInvoiceObject.setInvoiceLineItems(updatedLineItems);
         updatedInvoiceObject.setInvoiceId(invoice.getInvoiceId());
 
-        return true;
+        if(updatedInvoiceObject.getInvoiceLineItems().isEmpty())
+        {
+            return "Invoice line item is null";
+        }
+
+
+
+        return "true";
 
     }
 
